@@ -8,10 +8,11 @@
     "node": "18.x"
   },
   "scripts": {
+    "tsc": "./node_modules/typescript/bin/tsc",
     "dev": "tsc-watch --onSuccess \"node dist/main.js\"",
-    "prod": "tsc && node dist/main.js",
+    "prod": "node dist/main.js",
     "deploy": "node dist/deployCommands.js",
-    "tsc": "./node_modules/typescript/bin/tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
