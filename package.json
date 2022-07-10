@@ -22,11 +22,11 @@
     "discord.js": "^13.8.1",
     "dotenv": "^16.0.1",
     "node-schedule": "^2.1.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "@discordjs/builders": "^0.15.0",
+    "@discordjs/rest": "^0.5.0"
   },
   "devDependencies": {
-    "@discordjs/builders": "^0.15.0",
-    "@discordjs/rest": "^0.5.0",
     "@types/node": "^18.0.3",
     "@types/node-schedule": "^2.1.0",
     "@types/pg": "^8.6.5",
