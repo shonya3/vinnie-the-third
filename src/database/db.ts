@@ -9,7 +9,9 @@ const pool = new pg.Pool({
   // password: process.env.POSTGRES_PASSWORD,
   // port: Number(process.env.POSTGRES_PORT),
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 export default pool;
