@@ -1,0 +1,30 @@
+{
+  "name": "dbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node dist/main.js\"",
+    "prod": "tsc && node dist/main.js",
+    "deploy": "node dist/deployCommands.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cron-parser": "^4.5.0",
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1",
+    "node-schedule": "^2.1.0",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "@discordjs/builders": "^0.15.0",
+    "@discordjs/rest": "^0.5.0",
+    "@types/node": "^18.0.3",
+    "@types/node-schedule": "^2.1.0",
+    "@types/pg": "^8.6.5",
+    "discord-api-types": "^0.36.1"
+  }
+}
