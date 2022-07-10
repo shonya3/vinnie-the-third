@@ -10,7 +10,11 @@ export const command = {
     const jobs = client.jobs.get(channelId);
 
     const subscription = await bossSubscriptionsController.getOneChannel(channelId);
-    if (!subscription) return interaction.reply('Вы не подписаны на анонс боссов');
+    if (!subscription) {
+      jobs?.forEach(j => j.cancel());
+      client.jobs.delete(channelId);
+      return interaction.reply('Вы не подписаны на анонс боссов');
+    }
 
     try {
       bossSubscriptionsController.deleteChannel(channelId);

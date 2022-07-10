@@ -23,7 +23,19 @@ export const command = {
 
   async execute(interaction: CommandInteraction, client: Client) {
     const { channelId } = interaction;
-    if (client.jobs.has(channelId)) return interaction.reply('Вы уже подписаны. Сначала отпишитесь от старых анонсов.');
+
+    const subscription = await bossSubscriptionsController.getOneChannel(channelId);
+    if (subscription) {
+      if (!client.jobs.has(channelId)) {
+        const channel = getChannel(client, subscription.channelId);
+        announcementsFromTable(subscription.offsets).forEach(announcement => {
+          const job = scheduleBossAnnouncement(announcement, channel.id, client, subscription.offsets);
+          putJobIntoCollection(job, channelId, client.jobs);
+        });
+      }
+
+      return interaction.reply('Вы уже подписаны. Сначала отпишитесь от старых анонсов.');
+    }
     const offsetsFromUserInput = interaction.options.getString('за-сколько-минут-предупредить');
     if (!offsetsFromUserInput)
       return interaction.reply('Не смог получить данные. Возможно, вы ввели некорректные данные. Попробуйте еще раз. ');
