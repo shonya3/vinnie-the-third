@@ -34,6 +34,8 @@ export const command = {
         });
       }
 
+      console.log(client.jobs.get(channelId));
+
       return interaction.reply('Вы уже подписаны. Сначала отпишитесь от старых анонсов.');
     }
     const offsetsFromUserInput = interaction.options.getString('за-сколько-минут-предупредить');
