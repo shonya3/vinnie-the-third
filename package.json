@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/main.js",
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/main.js\"",
     "prod": "tsc && node dist/main.js",
