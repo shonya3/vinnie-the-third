@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/main.js\"",
     "prod": "tsc && node dist/main.js",
-    "deploy": "node dist/deployCommands.js"
+    "deploy": "node dist/deployCommands.js",
+    "tsc": "./node_modules/typescript/bin/tsc"
   },
   "keywords": [],
   "author": "",
