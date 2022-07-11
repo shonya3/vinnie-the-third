@@ -1,12 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Client, CommandInteraction, TextChannel } from 'discord.js';
+import type { Client, CommandInteraction } from 'discord.js';
 import { MAX_POSSIBLE_OFFSET, MIN_POSSIBLE_OFFSET } from '../../const.js';
 import bossSubscriptionsController from '../../controllers/bossSubscriptions/bossSubscriptions.controller.js';
-import { getChannel } from '../../lib/discord.js';
 import { unique } from '../../lib/general.js';
-import { announcementsFromTable } from '../../models/bossSchedule/announcementsFromTable.js';
-import { putJobIntoCollection } from '../../controllers/bossSchedule/putJobIntoCollection.js';
-import { scheduleBossAnnouncement } from '../../controllers/bossSchedule/scheduleBossAnnouncement.js';
 import bossScheduleController from '../../controllers/bossSchedule/bossSchedule.controller.js';
 
 export const command = {

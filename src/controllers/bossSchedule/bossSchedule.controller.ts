@@ -1,8 +1,9 @@
 import { Client } from 'discord.js';
-import { announcementsFromTable } from '../../models/bossSchedule/announcementsFromTable.js';
+import { announcementsFromTable } from './announcementsFromTable.js';
 import { putJobIntoCollection } from './putJobIntoCollection.js';
 import { scheduleBossAnnouncement } from './scheduleBossAnnouncement.js';
 import type { BossSubscriptionForChannel } from '../../types.js';
+import { setNextBossPresence } from '../presence/setNextBossPresence.js';
 
 const scheduleForOneChannel = (client: Client, { channelId, offsets }: BossSubscriptionForChannel) => {
   announcementsFromTable(offsets).forEach(announcement => {
@@ -27,4 +28,6 @@ export default {
   scheduleForOneChannel,
   cancelForOneChannel,
   scheduleForManyChannels,
+  announcementsFromTable,
+  setNextBossPresence,
 };
