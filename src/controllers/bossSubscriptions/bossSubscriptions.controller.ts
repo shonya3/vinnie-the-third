@@ -1,5 +1,5 @@
-import db from '../database/db.js';
-import { BossSubscriptionForChannel } from '../types.js';
+import db from '../../models/bossSubscriptions/db.js';
+import { BossSubscriptionForChannel } from '../../types.js';
 
 const saveSubscription = async (channelId: string, offsets: Array<number>) => {
   const queryResult = await db
@@ -18,7 +18,7 @@ const saveSubscription = async (channelId: string, offsets: Array<number>) => {
 };
 const getOneChannel = async (channelId: string) => {
   const queryResult = await db.query('SELECT * FROM bosssubscriptions WHERE channel_id = $1', [channelId]);
-  const subscription: BossSubscriptionForChannel = queryResult.rows[0];
+  const subscription: BossSubscriptionForChannel | undefined = queryResult.rows[0];
   return subscription;
 };
 const getChannels = async () => {

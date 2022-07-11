@@ -1,7 +1,7 @@
-import { cronToClosestDate } from '../../../utils/dates.js';
-import bossCronTable from '../../../bossCronTable.json' assert { type: 'json' };
+import { cronToClosestDate } from '../../lib/dates.js';
+import bossCronTable from './bossCronTable.json' assert { type: 'json' };
 
-import type { BossWithCron, BossWithDate } from '../../../types.js';
+import type { BossWithCron, BossWithDate } from '../../types.js';
 
 export const generateBossMap = (
   { nameStyle }: { nameStyle: 'full' | 'short' } = { nameStyle: 'short' }

@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { configENV } from '../configENV.js';
+import { configENV } from '../../configENV.js';
 configENV();
 
 const pool = new pg.Pool({
@@ -9,9 +9,12 @@ const pool = new pg.Pool({
   // password: process.env.POSTGRES_PASSWORD,
   // port: Number(process.env.POSTGRES_PORT),
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl:
+    process.env.NODE_ENV === 'development'
+      ? undefined
+      : {
+          rejectUnauthorized: false,
+        },
 });
 
 export default pool;

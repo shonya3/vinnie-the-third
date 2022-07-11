@@ -1,7 +1,7 @@
-import { timeString } from './../../../utils/dates.js';
+import { timeString } from '../../lib/dates.js';
 import { Client } from 'discord.js';
-import { setPresence } from '../../../utils/discord.js';
-import { generateBossMap } from './generateBossMap.js';
+import { setPresence } from '../../lib/discord.js';
+import { generateBossMap } from '../../models/bossSchedule/generateBossMap.js';
 
 const generateBossQueue = () => Array.from(generateBossMap().values()).map(bossArray => bossArray.join(', '));
 

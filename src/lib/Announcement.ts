@@ -1,10 +1,10 @@
 import { scheduleJob } from 'node-schedule';
-import { dateToRule, unitToMs } from '../../../utils/dates.js';
+import { dateToRule, unitToMs } from './dates.js';
 
 import type { Job } from 'node-schedule';
-import { cronToClosestDate } from '../../../utils/dates.js';
-import { MIN_POSSIBLE_OFFSET, MAX_POSSIBLE_OFFSET } from '../../../const.js';
-import type { Rule, TimeUnit } from '../../../types.js';
+import { cronToClosestDate } from './dates.js';
+import { MIN_POSSIBLE_OFFSET, MAX_POSSIBLE_OFFSET } from '../const.js';
+import type { Rule, TimeUnit } from '../types.js';
 
 type RepeatingCallback = (offset: number, timeout: number, unit: TimeUnit) => Promise<any>;
 type ReleaseCallback = Function;

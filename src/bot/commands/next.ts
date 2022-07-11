@@ -1,7 +1,7 @@
 import { CommandInteraction } from 'discord.js';
 import { SlashCommandBuilder, bold } from '@discordjs/builders';
-import { timeLeft } from '../../utils/dates.js';
-import { generateBossMap } from '../handlers/readyHandler/generateBossMap.js';
+import { timeLeft } from '../../lib/dates.js';
+import { generateBossMap } from '../../models/bossSchedule/generateBossMap.js';
 
 const createNextBossesString = (num = 1, map: Map<number | string, string[]>) =>
   Array.from(map.entries())

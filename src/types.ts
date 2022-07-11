@@ -1,4 +1,4 @@
-import type { Announcement } from './bot/handlers/readyHandler/Announcement.js';
+import type { Announcement } from './lib/Announcement.js';
 import type { SlashCommandBuilder } from '@discordjs/builders';
 import type { Client, ClientPresence, CommandInteraction } from 'discord.js';
 import type { Collection } from '@discordjs/collection';

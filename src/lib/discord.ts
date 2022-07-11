@@ -1,5 +1,5 @@
 import { Client, Message, Snowflake, TextChannel, ThreadChannel } from 'discord.js';
-import MessageFetcher from '../bot/misc/MessageFetcher.js';
+import MessageFetcher from './MessageFetcher.js';
 import { ALL_MESSAGES, CHANNEL_ID, DISCORD_EPOCH } from '../const.js';
 import { waitMinutes } from './dates.js';
 import { concatStringsToLength } from './general.js';

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { throwIfNot } from './utils/general.js';
+import { throwIfNot } from './lib/general.js';
 
 const configNODE_ENV = () => {
   dotenv.config({ path: '.node.env' });

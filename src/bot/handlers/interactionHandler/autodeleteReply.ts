@@ -1,4 +1,4 @@
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 
 export const autodeleteReply = (interaction: CommandInteraction, timeout: number) => {
   const timerId = setTimeout(() => {

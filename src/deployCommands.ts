@@ -3,7 +3,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
 import { configENV } from './configENV.js';
-import { loadCommands } from './loadCommands.js';
+import commandsController from './controllers/commands/commands.controller.js';
 
 const prodDeployCommands = (clientId: string, rest: REST, commands: Omit<SlashCommandBuilder, any>[]) =>
   rest.put(Routes.applicationCommands(clientId), { body: commands });
@@ -18,7 +18,7 @@ const devDeployCommands = (
 
 const deployCommands = async (token: string, clientId: string, guilds: string[], isProduction: boolean) => {
   try {
-    const commands = await loadCommands(import.meta.url, './bot/commands');
+    const commands = await commandsController.loadCommands(import.meta.url, './bot/commands');
     const commandsJSON: Omit<SlashCommandBuilder, any>[] = await Promise.all(
       commands.map(command => command.data.toJSON())
     );

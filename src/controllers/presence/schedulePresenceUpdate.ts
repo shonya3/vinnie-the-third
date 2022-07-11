@@ -1,8 +1,8 @@
 import { Client } from 'discord.js';
 import { scheduleJob } from 'node-schedule';
-import { generateBossMap } from './generateBossMap.js';
+import { generateBossMap } from '../../models/bossSchedule/generateBossMap.js';
 import { setNextBossPresence } from './setNextBossPresence.js';
-import { getPresence, setPresence } from '../../../utils/discord.js';
+import { getPresence, setPresence } from '../../lib/discord.js';
 const watchPresence = (client: Client) => setInterval(() => setPresence(client, getPresence(client)), 3000 * 60);
 
 export const schedulePresenceUpdate = (client: Client) => {

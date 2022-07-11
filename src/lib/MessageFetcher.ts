@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import type { Snowflake } from 'discord.js';
-import { capitalize } from '../../utils/general.js';
+import { capitalize } from './general.js';
 
 interface IMessageFetcher {
   before: (id: Snowflake, limit: number) => any;

@@ -1,9 +1,8 @@
 import { bold } from '@discordjs/builders';
 import { Client } from 'discord.js';
-import { RELEASE_MESSAGE_TIMEOUT } from '../../../const.js';
-import { getChannel, sendSelfDeletingMessage } from '../../../utils/discord.js';
-import type { Announcement } from './Announcement.js';
-import { setNextBossPresence } from './setNextBossPresence.js';
+import { RELEASE_MESSAGE_TIMEOUT } from '../../const.js';
+import { getChannel, sendSelfDeletingMessage } from '../../lib/discord.js';
+import type { Announcement } from '../../lib/Announcement.js';
 
 export const scheduleBossAnnouncement = (
   announcement: Announcement,
