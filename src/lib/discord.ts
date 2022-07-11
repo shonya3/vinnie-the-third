@@ -36,9 +36,14 @@ export const formatMessage = (msg: Message, i?: number) => {
   return `${beforeContent}: ${msg.content}`;
 };
 export const sendSelfDeletingMessage = async (channel: TextChannel, str: string, minutes = 5) => {
-  const msg = await channel.send(str);
-  await waitMinutes(minutes);
-  await msg.delete();
+  try {
+    const msg = await channel.send(str);
+    await waitMinutes(minutes);
+    await msg.delete();
+  } catch (err) {
+    console.log(err);
+    console.log('Error. Tried to sendSelfDeingMessage');
+  }
 };
 export const createThread = (channel: TextChannel, name: string) => channel.threads.create({ name });
 
