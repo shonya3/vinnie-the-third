@@ -4,16 +4,16 @@ import { dateToRule, unitToMs } from './dates.js';
 import type { Job } from 'node-schedule';
 import { cronToClosestDate } from './dates.js';
 import { MIN_POSSIBLE_OFFSET, MAX_POSSIBLE_OFFSET } from '../const.js';
-import type { Rule, TimeUnit } from '../types.js';
-
-type RepeatingCallback = (offset: number, timeout: number, unit: TimeUnit) => Promise<any>;
-type ReleaseCallback = Function;
-
-type Offset = number;
-interface OffsetsWithTimeUnit {
-  offsets: Offset[];
-  unit: TimeUnit;
-}
+import type {
+  Rule,
+  TimeUnit,
+  RepeatingCallback,
+  ReleaseCallback,
+  Offset,
+  OffsetsWithTimeUnit,
+  AnyFunction,
+  AnnouncementCallbacks,
+} from '../types.js';
 
 export class Announcement {
   job?: Job;
@@ -36,8 +36,11 @@ export class Announcement {
     }
   }
 
-  schedule(repeating?: RepeatingCallback, onRelease?: ReleaseCallback) {
-    this.#callback = this.#composeCallback(repeating, onRelease);
+  schedule(callbacks?: AnnouncementCallbacks) {
+    this.#callback = this.#composeCallback({
+      repeating: callbacks?.repeating,
+      onRelease: callbacks?.onRelease,
+    });
     // ? scheduleJob(this.bossName, this.rule, this.#callback.bind(this))
     // : scheduleJob(this.rule, this.#callback.bind(this));
     const job = scheduleJob(this.rule, this.#callback.bind(this));
@@ -76,7 +79,7 @@ export class Announcement {
     this.repeatingCallback = f;
   }
 
-  setReleaseCallback(f: Function) {
+  setReleaseCallback(f: AnyFunction) {
     this.releaseCallback = f;
   }
 
@@ -124,7 +127,7 @@ export class Announcement {
     }
   }
 
-  #composeCallback(repeating?: RepeatingCallback, onRelease?: ReleaseCallback) {
+  #composeCallback({ repeating, onRelease }: AnnouncementCallbacks) {
     if (repeating) this.setRepeatingCallback(repeating);
     if (onRelease) this.setReleaseCallback(onRelease);
     if (!this.repeatingCallback && !this.releaseCallback)
@@ -135,4 +138,41 @@ export class Announcement {
       if (this.releaseCallback) await this.releaseCallback?.();
     };
   }
+}
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+  const { waitSeconds, secondsLater } = await import('./dates.js');
+
+  it('Announcement', async () => {
+    const announcement = new Announcement(secondsLater(new Date(), 2), {
+      unit: 'seconds',
+      offsets: [0, 0.5, 1],
+    });
+    const messages: string[] = [];
+    const timestamps: number[] = [];
+    const createMsg = (offset: number, unit: TimeUnit) => {
+      return `Reminder that the event happens in ${offset} ${unit}`;
+    };
+
+    announcement.schedule({
+      async repeating(offset, timeout, unit) {
+        const msg = createMsg(offset, unit);
+        messages.push(msg);
+        timestamps.push(new Date().getTime());
+        await waitSeconds(timeout);
+      },
+      onRelease: () => messages.push('Release message!'),
+    });
+
+    await waitSeconds(2.1);
+    expect(messages).toEqual([
+      'Reminder that the event happens in 1 seconds',
+      'Reminder that the event happens in 0.5 seconds',
+      'Reminder that the event happens in 0 seconds',
+      'Release message!',
+    ]);
+    const arr = [timestamps[2] - timestamps[1], timestamps[1] - timestamps[0]];
+    expect(arr.every(el => Math.abs(el - 500) <= 50)).toBeTruthy();
+  });
 }
