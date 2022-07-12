@@ -31,7 +31,8 @@ export const toMs = ({ sec = 0, min = 0, hour = 0, day = 0 }: Time) => {
 
 export const waitMinutes = (minutes: number) => new Promise(r => setTimeout(r, minutesToMs(minutes)));
 export const waitSeconds = (seconds: number) => new Promise(r => setTimeout(r, secondsToMs(seconds)));
-export const wait = (value: number, unit: TimeUnit) => new Promise(r => setTimeout(r, unitToMs(value, unit)));
+export const wait = (value: number, unit: TimeUnit = 'milliseconds') =>
+  new Promise(r => setTimeout(r, unitToMs(value, unit)));
 export const waitMilliseconds = (milliseconds: number) => new Promise(r => setTimeout(r, milliseconds));
 
 export const cronToClosestDate = (expr: CronExpression) => cronParser.parseExpression(expr).next().toDate();

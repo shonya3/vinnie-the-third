@@ -142,7 +142,7 @@ export class Announcement {
 
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
-  const { waitSeconds, secondsLater } = await import('./dates.js');
+  const { waitSeconds, secondsLater, wait } = await import('./dates.js');
 
   it('Announcement', async () => {
     const announcement = new Announcement(secondsLater(new Date(), 2), {
@@ -160,12 +160,12 @@ if (import.meta.vitest) {
         const msg = createMsg(offset, unit);
         messages.push(msg);
         timestamps.push(new Date().getTime());
-        await waitSeconds(timeout);
+        await wait(timeout, unit);
       },
       onRelease: () => messages.push('Release message!'),
     });
 
-    await waitSeconds(2.1);
+    await wait(2.1, 'seconds');
     expect(messages).toEqual([
       'Reminder that the event happens in 1 seconds',
       'Reminder that the event happens in 0.5 seconds',
