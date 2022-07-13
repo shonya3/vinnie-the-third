@@ -16,7 +16,7 @@ export const command = {
       return interaction.reply('Вы не подписаны на анонс боссов.');
     }
 
-    if (subscription && !client.jobs.has(channelId)) {
+    if (subscription && !client.announcements.has(channelId)) {
       bossScheduleController.scheduleForOneChannel(client, subscription);
     }
 

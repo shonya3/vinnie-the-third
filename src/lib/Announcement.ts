@@ -1,7 +1,6 @@
-import { scheduleJob } from 'node-schedule';
+import { Job, scheduleJob } from 'node-schedule';
 import { dateToRule, unitToMs } from './dates.js';
 
-import type { Job } from 'node-schedule';
 import { cronToClosestDate } from './dates.js';
 import { MIN_POSSIBLE_OFFSET, MAX_POSSIBLE_OFFSET } from '../const.js';
 import type {
@@ -13,10 +12,12 @@ import type {
   OffsetsWithTimeUnit,
   AnyFunction,
   AnnouncementCallbacks,
+  ScheduledAnnouncement,
 } from '../types.js';
 
 export class Announcement {
-  job?: Job;
+  name?: string;
+  cancel?: () => void;
   minPossibleOffset = MIN_POSSIBLE_OFFSET;
   maxPossibleOffset = MAX_POSSIBLE_OFFSET;
   repeatingCallback?: RepeatingCallback;
@@ -36,17 +37,28 @@ export class Announcement {
     }
   }
 
-  schedule(callbacks?: AnnouncementCallbacks) {
+  schedule(callbacks?: AnnouncementCallbacks, name?: string): asserts this is ScheduledAnnouncement {
     this.#callback = this.#composeCallback({
       repeating: callbacks?.repeating,
       onRelease: callbacks?.onRelease,
     });
-    // ? scheduleJob(this.bossName, this.rule, this.#callback.bind(this))
-    // : scheduleJob(this.rule, this.#callback.bind(this));
     const job = scheduleJob(this.rule, this.#callback.bind(this));
-    job.announcement = this;
-    this.job = job;
-    return job;
+    if (!job) throw new Error('Error with announcement scheduling');
+
+    this.cancel = job.cancel.bind(job);
+    if (!name) this.name = this.#createDefaultName(job);
+  }
+
+  #formatContext() {
+    const entries = Array.from(this.context)
+      .map(([key, value]) => `${key} => ${value}`)
+      .join(', ');
+    return `  Context: ${entries}`;
+  }
+
+  #createDefaultName(job: Job) {
+    const name = job.name.replace('Job', 'Announcement');
+    return name + this.#formatContext();
   }
 
   addContext(k: any, v: any) {
@@ -61,18 +73,22 @@ export class Announcement {
     return this.context.get(k);
   }
 
-  set offsets(val: number[]) {
+  set offsets(val: number[] | undefined) {
     this.#offsets = val;
     if (typeof this.rule === 'string') this.#buildRuleFromCron();
     if (this.rule instanceof Date) this.#applyOffsetToRule(this.rule);
   }
 
   get offsets() {
-    return this.#offsets ?? [];
+    return this.#offsets;
   }
 
   get maxOffset() {
-    return this.offsets.length ? Math.max(...this.offsets) : undefined;
+    return this.offsets ? Math.max(...this.offsets) : undefined;
+  }
+
+  get callback() {
+    return this.#callback;
   }
 
   setRepeatingCallback(f: RepeatingCallback) {
@@ -81,11 +97,6 @@ export class Announcement {
 
   setReleaseCallback(f: AnyFunction) {
     this.releaseCallback = f;
-  }
-
-  setMinMaxPossibleOffsets(min: number, max: number) {
-    this.minPossibleOffset = min;
-    this.maxPossibleOffset = max;
   }
 
   #buildRuleFromCron() {
@@ -105,8 +116,8 @@ export class Announcement {
     return typeof this.rule === 'string' && this.maxOffset !== undefined;
   }
 
-  #validateOffsets() {
-    if (!this.offsets) return;
+  #validateOffsets(): asserts this is Announcement & { offsets: number[] } {
+    if (!this.offsets) throw new Error('Repeating callback needs offsets');
 
     if (this.offsets.some(offset => offset < this.minPossibleOffset))
       throw new Error('offset cannot be less than minPossibleOffset');
@@ -142,10 +153,10 @@ export class Announcement {
 
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
-  const { waitSeconds, secondsLater, wait } = await import('./dates.js');
+  const { secondsLater, wait } = await import('./dates.js');
 
   it('Announcement', async () => {
-    const announcement = new Announcement(secondsLater(new Date(), 2), {
+    const announcement: Announcement = new Announcement(secondsLater(new Date(), 2), {
       unit: 'seconds',
       offsets: [0, 0.5, 1],
     });

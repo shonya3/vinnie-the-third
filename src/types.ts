@@ -3,12 +3,11 @@ import type { SlashCommandBuilder } from '@discordjs/builders';
 import type { Client, ClientPresence, CommandInteraction } from 'discord.js';
 import type { Collection } from '@discordjs/collection';
 import type { RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
-import type { Job } from 'node-schedule';
 
 declare module 'discord.js' {
   interface Client {
     commands: Collection<string, Command>;
-    jobs: Collection<string, Job[]>;
+    announcements: Collection<string, ScheduledAnnouncement[]>;
   }
 }
 
@@ -100,3 +99,4 @@ export interface AnnouncementCallbacks {
   repeating?: RepeatingCallback;
   onRelease?: ReleaseCallback;
 }
+export type ScheduledAnnouncement = Announcement & { cancel: () => void };

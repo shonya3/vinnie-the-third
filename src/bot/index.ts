@@ -17,7 +17,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-client.jobs = new Collection();
+client.announcements = new Collection();
 
 client.on('ready', async () => {
   await readyHandler(client);

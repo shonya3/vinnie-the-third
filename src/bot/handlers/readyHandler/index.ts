@@ -13,7 +13,7 @@ export const readyHandler = async (client: Client) => {
     presenceController.schedulePresenceUpdate(client);
 
     const subscriptions: BossSubscriptionForChannel[] = await bossSubscriptionsController.getChannels();
-    bossScheduleController.scheduleForManyChannels(client, subscriptions);
+    bossScheduleController.scheduleForChannels(client, subscriptions);
 
     commandsController.loadCommands(import.meta.url, '../../commands').then(commands => {
       commandsController.putCommandsIntoCollection(commands, client.commands);
