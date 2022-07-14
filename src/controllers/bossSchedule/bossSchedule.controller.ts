@@ -4,10 +4,9 @@ import { putAnnouncementIntoCollection } from './putAnnouncementIntoCollection.j
 import { scheduleBossAnnouncement } from './scheduleBossAnnouncement.js';
 import type { BossSubscriptionForChannel } from '../../types.js';
 import { setNextBossPresence } from '../presence/setNextBossPresence.js';
-import { Announcement } from '../../lib/Announcement.js';
 
 const scheduleForOneChannel = (client: Client, { channelId, offsets }: BossSubscriptionForChannel) => {
-  announcementsFromTable(offsets).forEach((announcement: Announcement) => {
+  announcementsFromTable(offsets).forEach(announcement => {
     const scheduled = scheduleBossAnnouncement(announcement, channelId, client);
     putAnnouncementIntoCollection(scheduled, channelId, client.announcements);
   });
