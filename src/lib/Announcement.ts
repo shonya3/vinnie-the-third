@@ -16,10 +16,17 @@ import type {
 } from '../types.js';
 
 export class Announcement {
+  static minPossibleOffset = MIN_POSSIBLE_OFFSET;
+  static maxPossibleOffset = MAX_POSSIBLE_OFFSET;
+  static setMinMaxPossibleOffsets(min: number, max: number) {
+    Announcement.minPossibleOffset = min;
+    Announcement.maxPossibleOffset = max;
+  }
+
   name?: string;
   cancel?: () => void;
-  minPossibleOffset = MIN_POSSIBLE_OFFSET;
-  maxPossibleOffset = MAX_POSSIBLE_OFFSET;
+  minPossibleOffset = Announcement.minPossibleOffset;
+  maxPossibleOffset = Announcement.maxPossibleOffset;
   repeatingCallback?: RepeatingCallback;
   releaseCallback?: ReleaseCallback;
   offsetsUnit: TimeUnit = 'minutes';
@@ -47,6 +54,7 @@ export class Announcement {
 
     this.cancel = job.cancel.bind(job);
     if (!name) this.name = this.#createDefaultName(job);
+    this.#validateOffsets();
   }
 
   #formatContext() {
