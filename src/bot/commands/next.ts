@@ -1,5 +1,4 @@
-import { CommandInteraction } from 'discord.js';
-import { SlashCommandBuilder, bold } from '@discordjs/builders';
+import { SlashCommandBuilder, bold, ChatInputCommandInteraction } from 'discord.js';
 import { timeLeft } from '../../lib/dates.js';
 import { generateBossMap } from '../../models/bossSchedule/generateBossMap.js';
 
@@ -17,7 +16,7 @@ export const command = {
     .setName('next')
     .setDescription('Подсказывает имя ближайшего босса или ближайших боссов')
     .addIntegerOption(option => option.setName('n').setDescription('n next bosses')),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const bossCount = interaction.options.getInteger('n') ?? 1;
 
     if (bossCount === 0) return interaction.reply('Возможно, это запятая или ноль');

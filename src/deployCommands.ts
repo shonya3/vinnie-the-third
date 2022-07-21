@@ -1,9 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
 import { configENV } from './configENV.js';
 import commandsController from './controllers/commands/commands.controller.js';
+import { SlashCommandBuilder } from 'discord.js';
 
 const prodDeployCommands = (clientId: string, rest: REST, commands: Omit<SlashCommandBuilder, any>[]) =>
   rest.put(Routes.applicationCommands(clientId), { body: commands });

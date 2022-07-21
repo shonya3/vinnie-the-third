@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import type { Client, CommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction, Client, CommandInteraction } from 'discord.js';
 import { MAX_POSSIBLE_OFFSET, MIN_POSSIBLE_OFFSET } from '../../const.js';
 import bossSubscriptionsController from '../../controllers/bossSubscriptions/bossSubscriptions.controller.js';
 import { unique } from '../../lib/general.js';
@@ -18,7 +18,7 @@ export const command = {
         .setRequired(true)
     ),
 
-  async execute(interaction: CommandInteraction, client: Client) {
+  async execute(interaction: ChatInputCommandInteraction, client: Client) {
     const { channelId } = interaction;
 
     try {

@@ -1,10 +1,10 @@
 import { AUTODELETE_TIMER } from '../../../const.js';
 import { autodeleteReply } from './autodeleteReply.js';
 
-import type { Client, Interaction, Message } from 'discord.js';
+import { Client, Interaction, InteractionType, Message } from 'discord.js';
 
 export const interactionHandler = async (interaction: Interaction, client: Client) => {
-  if (!interaction.isCommand()) return;
+  if (interaction.type !== InteractionType.ApplicationCommand) return;
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
 
