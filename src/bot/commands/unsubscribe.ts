@@ -1,28 +1,28 @@
 import type { Client, CommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import bossScheduleController from '../../controllers/bossSchedule/bossSchedule.controller.js';
-import bossSubscriptionsController from '../../controllers/bossSubscriptions/bossSubscriptions.controller.js';
+import bossScheduleModule from '../../modules/bossSchedule/mod.js';
+import bossSubscriptionsModule from '../../modules/bossSubscriptions/mod.js';
 
 export const command = {
-  data: new SlashCommandBuilder().setName('unsubscribe').setDescription('Отписаться от анонса боссов'),
+	data: new SlashCommandBuilder().setName('unsubscribe').setDescription('Отписаться от анонса боссов'),
 
-  async execute(interaction: CommandInteraction, client: Client) {
-    const { channelId } = interaction;
+	async execute(interaction: CommandInteraction, client: Client) {
+		const { channelId } = interaction;
 
-    try {
-      const subscription = await bossSubscriptionsController.getOneChannel(channelId);
-      if (!subscription) {
-        bossScheduleController.cancelForOneChannel(client, channelId);
-        return interaction.reply('Вы не подписаны на анонс боссов');
-      }
+		try {
+			const subscription = await bossSubscriptionsModule.getOneChannel(channelId);
+			if (!subscription) {
+				bossScheduleModule.cancelForOneChannel(client, channelId);
+				return interaction.reply('Вы не подписаны на анонс боссов');
+			}
 
-      bossSubscriptionsController.deleteChannel(channelId);
-      bossScheduleController.cancelForOneChannel(client, channelId);
-    } catch (err) {
-      console.log(err);
-      return interaction.reply('Произошла ошибка при попытке отписаться. Попробуйте снова.');
-    }
+			bossSubscriptionsModule.deleteChannel(channelId);
+			bossScheduleModule.cancelForOneChannel(client, channelId);
+		} catch (err) {
+			console.log(err);
+			return interaction.reply('Произошла ошибка при попытке отписаться. Попробуйте снова.');
+		}
 
-    return interaction.reply('Вы отписались от анонса боссов');
-  },
+		return interaction.reply('Вы отписались от анонса боссов');
+	},
 };

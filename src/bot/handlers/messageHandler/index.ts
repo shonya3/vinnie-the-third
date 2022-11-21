@@ -2,8 +2,8 @@ import { Message } from 'discord.js';
 
 export const messageHandler = async (msg: Message) => {
 	try {
-		console.log(msg.content.charCodeAt(0).toString(16), msg.content.charCodeAt(1).toString(16));
-		console.log(msg.content.charCodeAt(0), msg.content.charCodeAt(1));
+		// console.log(msg.content.charCodeAt(0).toString(16), msg.content.charCodeAt(1).toString(16));
+		// console.log(msg.content.charCodeAt(0), msg.content.charCodeAt(1));
 		if (msg.content.includes('nivazmojna')) await msg.react('<:nivazmojna:850123166923882558>');
 		if (msg.content.includes('jaba')) await msg.react('<:jaba:637684829114204175>');
 

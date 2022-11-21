@@ -1,25 +1,28 @@
 import { timeString } from '../../../lib/dates.js';
 import { Client } from 'discord.js';
-import bossSubscriptionsController from '../../../controllers/bossSubscriptions/bossSubscriptions.controller.js';
-import bossScheduleController from '../../../controllers/bossSchedule/bossSchedule.controller.js';
-import presenceController from '../../../controllers/presence/presence.controller.js';
-import commandsController from '../../../controllers/commands/commands.controller.js';
+import bossSubscriptionsModule from '../../../modules/bossSubscriptions/mod.js';
+import bossScheduleModule from '../../../modules/bossSchedule/mod.js';
+import presenceModule from '../../../modules/presence/mod.js';
+import commandsModule from '../../../modules/commands/mod.js';
 import { BossSubscriptionForChannel } from '../../../types.js';
+import kroiyaStatusWatcher from '../../../modules/kroiyaStatusWatcher.js';
 
 export const readyHandler = async (client: Client) => {
-  try {
-    console.log(`${timeString(new Date())} Ready!`);
+	try {
+		console.log(`${timeString()} Ready!`);
 
-    presenceController.schedulePresenceUpdate(client);
+		presenceModule.schedulePresenceUpdate(client);
 
-    const subscriptions: BossSubscriptionForChannel[] = await bossSubscriptionsController.getChannels();
-    bossScheduleController.scheduleForChannels(client, subscriptions);
+		const subscriptions: BossSubscriptionForChannel[] = await bossSubscriptionsModule.getChannels();
+		bossScheduleModule.scheduleForChannels(client, subscriptions);
 
-    commandsController.loadCommands(import.meta.url, '../../commands').then(commands => {
-      commandsController.putCommandsIntoCollection(commands, client.commands);
-    });
-  } catch (err) {
-    console.log(err);
-    console.log('Error from Ready Handler');
-  }
+		commandsModule.loadCommands(import.meta.url, '../../commands').then(commands => {
+			commandsModule.putCommandsIntoCollection(commands, client.commands);
+		});
+
+		kroiyaStatusWatcher.init(client);
+	} catch (err) {
+		console.log(err);
+		console.log('Error from Ready Handler');
+	}
 };

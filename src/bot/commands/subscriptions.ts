@@ -1,25 +1,25 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Client, CommandInteraction } from 'discord.js';
-import bossSubscriptionsController from '../../controllers/bossSubscriptions/bossSubscriptions.controller.js';
-import bossScheduleController from '../../controllers/bossSchedule/bossSchedule.controller.js';
+import bossSubscriptionsModule from '../../modules/bossSubscriptions/mod.js';
+import bossScheduleModule from '../../modules/bossSchedule/mod.js';
 
 export const command = {
-  data: new SlashCommandBuilder().setName('subscriptions').setDescription('Проверить подписку на боссов'),
+	data: new SlashCommandBuilder().setName('subscriptions').setDescription('Проверить подписку на боссов'),
 
-  async execute(interaction: CommandInteraction, client: Client) {
-    const { channelId } = interaction;
+	async execute(interaction: CommandInteraction, client: Client) {
+		const { channelId } = interaction;
 
-    const subscription = await bossSubscriptionsController.getOneChannel(channelId);
+		const subscription = await bossSubscriptionsModule.getOneChannel(channelId);
 
-    if (!subscription) {
-      bossScheduleController.cancelForOneChannel(client, channelId);
-      return interaction.reply('Вы не подписаны на анонс боссов.');
-    }
+		if (!subscription) {
+			bossScheduleModule.cancelForOneChannel(client, channelId);
+			return interaction.reply('Вы не подписаны на анонс боссов.');
+		}
 
-    if (subscription && !client.announcements.has(channelId)) {
-      bossScheduleController.scheduleForOneChannel(client, subscription);
-    }
+		if (subscription && !client.announcements.has(channelId)) {
+			bossScheduleModule.scheduleForOneChannel(client, subscription);
+		}
 
-    return interaction.reply(`Вы подписаны на оповещения за ${subscription.offsets.join(', ')} минут до босса`);
-  },
+		return interaction.reply(`Вы подписаны на оповещения за ${subscription.offsets.join(', ')} минут до босса`);
+	},
 };
