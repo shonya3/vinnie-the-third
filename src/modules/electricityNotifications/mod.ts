@@ -4,7 +4,7 @@ import { cronToClosestDate, dateToRule } from '../../lib/dates.js';
 import { sendSelfDeletingMessage } from '../../lib/discord.js';
 import { CronExpression } from '../../types.js';
 
-const crons: CronExpression[] = [
+const crons = [
 	'0 3 * * 1',
 	'0 12 * * 1',
 	'0 21 * * 1',
@@ -24,7 +24,7 @@ const crons: CronExpression[] = [
 	'0 3 * * 0',
 	'0 12 * * 0',
 	'0 18 * * 0',
-];
+] satisfies CronExpression[];
 
 export const scheduleNotifications = (channel: TextChannel, crons: CronExpression[]) => {
 	crons.forEach(cron => {
