@@ -25,7 +25,7 @@ export const readyHandler = async (client: Client) => {
 		});
 
 		kroiyaStatusWatcher.init(client);
-		electricityNotifacionModule.schedule(vinnieMainChannel);
+		// electricityNotifacionModule.schedule(vinnieMainChannel);
 	} catch (err) {
 		console.log(err);
 		console.log('Error from Ready Handler');
