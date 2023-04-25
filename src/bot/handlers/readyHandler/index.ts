@@ -5,10 +5,10 @@ import bossScheduleModule from '../../../modules/bossSchedule/mod.js';
 import presenceModule from '../../../modules/presence/mod.js';
 import commandsModule from '../../../modules/commands/mod.js';
 import { BossSubscriptionForChannel } from '../../../types.js';
-import kroiyaStatusWatcher from '../../../modules/kroiyaStatusWatcher.js';
 import electricityNotifacionModule from '../../../modules/electricityNotifications/mod.js';
 import { getChannel } from '../../../lib/discord.js';
 import { CHANNEL_ID } from '../../../const.js';
+import { GuildMemberId, watchStatus, Status } from '../../../lib/watchStatus.js';
 
 export const readyHandler = async (client: Client) => {
 	const vinnieMainChannel = getChannel(client, CHANNEL_ID);
@@ -24,7 +24,16 @@ export const readyHandler = async (client: Client) => {
 			commandsModule.putCommandsIntoCollection(commands, client.commands);
 		});
 
-		kroiyaStatusWatcher.init(client, vinnieMainChannel);
+		const kroiya: GuildMemberId = {
+			guildId: '356012941083934721',
+			memberId: '182893458858442762',
+		};
+
+		watchStatus(client, kroiya)
+			.log('kroiya')
+			.on(Status.Online, () => vinnieMainChannel.send(':rabbit: пришел'))
+			.on(Status.Offline, () => vinnieMainChannel.send(':rabbit: ушел'));
+
 		// electricityNotifacionModule.schedule(vinnieMainChannel);
 	} catch (err) {
 		console.log(err);

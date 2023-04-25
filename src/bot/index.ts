@@ -2,8 +2,8 @@ import { Client, GatewayIntentBits, GuildMember, PresenceStatus } from 'discord.
 import { Collection } from '@discordjs/collection';
 
 import { readyHandler } from './handlers/readyHandler/index.js';
-import { interactionHandler } from './handlers/interactionHandler/index.js';
-import { messageHandler } from './handlers/messageHandler/index.js';
+import { interactionHandler } from './handlers/interactionHandler/mod.js';
+import { messageHandler } from './handlers/messageHandler/mod.js';
 import { CHANNEL_ID } from '../const.js';
 import { getChannel } from '../lib/discord.js';
 
