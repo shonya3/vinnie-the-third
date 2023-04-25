@@ -1,25 +1,23 @@
-import { Client, GuildMember } from 'discord.js';
+import { Client, GuildMember, TextChannel } from 'discord.js';
 import { EventEmitter } from 'node:events';
-import { CHANNEL_ID } from '../const.js';
 import { timeString } from '../lib/dates.js';
-import { getChannel } from '../lib/discord.js';
 
 const statusWatcher = new EventEmitter() as EventEmitter & {
 	client: Client;
-	init(client: Client): Promise<void>;
+	init(client: Client, channel: TextChannel): Promise<void>;
 };
 
-statusWatcher.init = async (client: Client) => {
+statusWatcher.init = async (client, channel) => {
 	statusWatcher.client = client;
 	statusWatcher.on('new status: offline', async () => {
 		console.log(`${timeString()} Status watcher update :::: new status: offline`);
-		const vinnieMainChannel = getChannel(statusWatcher.client, CHANNEL_ID);
-		await vinnieMainChannel.send(':rabbit: ушел');
+		await channel.send(':rabbit: ушел');
 		whileOffline();
 	});
 
-	statusWatcher.on('new status: online', () => {
+	statusWatcher.on('new status: online', async () => {
 		console.log(`${timeString()} Status watcher update :::: new status: online`);
+		await channel.send(':rabbit: пришел');
 		whileOnline();
 	});
 

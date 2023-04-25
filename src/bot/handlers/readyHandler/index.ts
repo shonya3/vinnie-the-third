@@ -24,7 +24,7 @@ export const readyHandler = async (client: Client) => {
 			commandsModule.putCommandsIntoCollection(commands, client.commands);
 		});
 
-		kroiyaStatusWatcher.init(client);
+		kroiyaStatusWatcher.init(client, vinnieMainChannel);
 		// electricityNotifacionModule.schedule(vinnieMainChannel);
 	} catch (err) {
 		console.log(err);
