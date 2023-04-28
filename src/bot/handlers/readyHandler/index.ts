@@ -5,7 +5,6 @@ import bossScheduleModule from '../../../modules/bossSchedule/mod.js';
 import presenceModule from '../../../modules/presence/mod.js';
 import commandsModule from '../../../modules/commands/mod.js';
 import { BossSubscriptionForChannel } from '../../../types.js';
-import electricityNotifacionModule from '../../../modules/electricityNotifications/mod.js';
 import { getChannel } from '../../../lib/discord.js';
 import { CHANNEL_ID } from '../../../const.js';
 import { GuildMemberId, watchStatus, Status } from '../../../lib/watchStatus.js';
@@ -33,8 +32,6 @@ export const readyHandler = async (client: Client) => {
 			.log('kroiya')
 			.on(Status.Online, () => vinnieMainChannel.send(':rabbit: пришел'))
 			.on(Status.Offline, () => vinnieMainChannel.send(':rabbit: ушел'));
-
-		// electricityNotifacionModule.schedule(vinnieMainChannel);
 	} catch (err) {
 		console.log(err);
 		console.log('Error from Ready Handler');
