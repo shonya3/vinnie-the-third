@@ -6,9 +6,9 @@ import { BossSubscriptionForChannel } from '../../types.js';
 import { GuildMemberId, watchStatus } from '../../lib/watchStatus.js';
 
 import presenceModule from '../../modules/presence/mod.js';
-import bossScheduleModule from '../../modules/bossSchedule/mod.js';
 import { Status } from '../../lib/watchStatus.js';
 import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
+import { bossScheduleModule } from '../../modules/bossSchedule/mod.js';
 
 export const onReady = async (client: Client) => {
 	const vinnieMainChannel = getChannel(client, CHANNEL_ID);
@@ -17,7 +17,7 @@ export const onReady = async (client: Client) => {
 
 		presenceModule.schedulePresenceUpdate(client);
 
-		const subscriptions: BossSubscriptionForChannel[] = await bossSubscriptionsModule.getChannels();
+		const subscriptions = await bossSubscriptionsModule.getChannels();
 		bossScheduleModule.scheduleForChannels(client, subscriptions);
 
 		const kroiya: GuildMemberId = {

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Client, ChatInputCommandInteraction } from 'discord.js';
-import bossScheduleModule from '../../modules/bossSchedule/mod.js';
 import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
+import { bossScheduleModule } from '../../modules/bossSchedule/mod.js';
 
 export const subscriptions = {
 	data: new SlashCommandBuilder().setName('subscriptions').setDescription('Проверить подписку на боссов'),

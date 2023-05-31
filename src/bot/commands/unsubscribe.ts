@@ -1,7 +1,7 @@
 import type { ChatInputCommandInteraction, Client } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import bossScheduleModule from '../../modules/bossSchedule/mod.js';
 import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
+import { bossScheduleModule } from '../../modules/bossSchedule/mod.js';
 
 export const unsubscribe = {
 	data: new SlashCommandBuilder().setName('unsubscribe').setDescription('Отписаться от анонса боссов'),
