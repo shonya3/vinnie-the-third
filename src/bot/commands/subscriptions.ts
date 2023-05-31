@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Client, CommandInteraction } from 'discord.js';
-import bossSubscriptionsModule from '../../modules/bossSubscriptions/mod.js';
+import { Client, ChatInputCommandInteraction } from 'discord.js';
 import bossScheduleModule from '../../modules/bossSchedule/mod.js';
+import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
 
-export const command = {
+export const subscriptions = {
 	data: new SlashCommandBuilder().setName('subscriptions').setDescription('Проверить подписку на боссов'),
 
-	async execute(interaction: CommandInteraction, client: Client) {
+	async execute(interaction: ChatInputCommandInteraction, client: Client) {
 		const { channelId } = interaction;
 
 		const subscription = await bossSubscriptionsModule.getOneChannel(channelId);

@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 
-export const messageHandler = async (msg: Message) => {
+export const onMessage = async (msg: Message) => {
 	try {
 		// console.log(msg.content.charCodeAt(0).toString(16), msg.content.charCodeAt(1).toString(16));
 		// console.log(msg.content.charCodeAt(0), msg.content.charCodeAt(1));

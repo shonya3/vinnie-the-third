@@ -1,8 +1,8 @@
 import { TextChannel } from 'discord.js';
 import { scheduledJobs, scheduleJob } from 'node-schedule';
-import { cronToClosestDate, dateToRule } from '../../lib/dates.js';
-import { sendSelfDeletingMessage } from '../../lib/discord.js';
-import { CronExpression } from '../../types.js';
+import { cronToClosestDate, dateToRule } from '../lib/dates.js';
+import { sendSelfDeletingMessage } from '../lib/discord.js';
+import { CronExpression } from '../types.js';
 
 const crons: CronExpression[] = [
 	'0 3 * * 1',

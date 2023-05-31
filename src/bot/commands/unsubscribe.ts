@@ -1,12 +1,12 @@
-import type { Client, CommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction, Client } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import bossScheduleModule from '../../modules/bossSchedule/mod.js';
-import bossSubscriptionsModule from '../../modules/bossSubscriptions/mod.js';
+import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
 
-export const command = {
+export const unsubscribe = {
 	data: new SlashCommandBuilder().setName('unsubscribe').setDescription('Отписаться от анонса боссов'),
 
-	async execute(interaction: CommandInteraction, client: Client) {
+	async execute(interaction: ChatInputCommandInteraction, client: Client) {
 		const { channelId } = interaction;
 
 		try {

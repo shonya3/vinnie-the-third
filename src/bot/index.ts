@@ -1,13 +1,17 @@
-import { Client, GatewayIntentBits, GuildMember, PresenceStatus } from 'discord.js';
+import { ChatInputCommandInteraction, Client, GatewayIntentBits } from 'discord.js';
 import { Collection } from '@discordjs/collection';
 
-import { readyHandler } from './handlers/readyHandler/index.js';
-import { interactionHandler } from './handlers/interactionHandler/mod.js';
-import { messageHandler } from './handlers/messageHandler/mod.js';
 import { CHANNEL_ID } from '../const.js';
 import { getChannel } from '../lib/discord.js';
+import { onMessage } from './handlers/onMessage.js';
+import { onReady } from './handlers/onReady.js';
+import { onInteraction } from './handlers/onInteraction.js';
 
-const client = new Client({
+const VINNIE_MAIN_CHANNEL = CHANNEL_ID;
+const VINNIE_ARCHER_CHANNEL = '356013349496029184';
+const WORKING_SERVER_CHANNEL = '842131980538871878';
+
+export const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
@@ -19,16 +23,8 @@ const client = new Client({
 	],
 });
 
-client.commands = new Collection();
 client.announcements = new Collection();
 
-client.on('ready', async () => {
-	await readyHandler(client);
-	const vinnieMainChannel = getChannel(client, CHANNEL_ID);
-	const vinnieArcherChannel = getChannel(client, '356013349496029184');
-	const wsChannel = getChannel(client, '842131980538871878');
-});
-client.on('interactionCreate', interaction => interactionHandler(interaction, client));
-client.on('messageCreate', messageHandler);
-
-export default client;
+client.on('ready', onReady);
+client.on('interactionCreate', interaction => onInteraction(interaction as ChatInputCommandInteraction, client));
+client.on('messageCreate', onMessage);

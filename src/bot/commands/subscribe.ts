@@ -1,28 +1,29 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import type { ChatInputCommandInteraction, Client, CommandInteraction } from 'discord.js';
 import { MAX_POSSIBLE_OFFSET, MIN_POSSIBLE_OFFSET } from '../../const.js';
-import BossSubscriptionsModule from '../../modules/bossSubscriptions/mod.js';
 import { unique } from '../../lib/general.js';
 import bossScheduleModule from '../../modules/bossSchedule/mod.js';
+import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
 
-export const command = {
-	data: new SlashCommandBuilder()
-		.setName('subscribe')
-		.setDescription('Подписывает на анонс боссов в текстовом канале')
-		.addStringOption(option =>
-			option
-				.setName('за-сколько-минут-предупредить')
-				.setDescription(
-					`10,30 - пример. Возможные значения: от ${MIN_POSSIBLE_OFFSET} до ${MAX_POSSIBLE_OFFSET}. Сколько угодно значений через запятую. `
-				)
-				.setRequired(true)
-		),
+const builder = new SlashCommandBuilder()
+	.setName('subscribe')
+	.setDescription('Подписывает на анонс боссов в текстовом канале');
+builder.addStringOption(option =>
+	option
+		.setName('за-сколько-минут-предупредить')
+		.setDescription(
+			`10,30 - пример. Возможные значения: от ${MIN_POSSIBLE_OFFSET} до ${MAX_POSSIBLE_OFFSET}. Сколько угодно значений через запятую. `
+		)
+		.setRequired(true)
+);
 
+export const subscribe = {
+	data: builder,
 	async execute(interaction: ChatInputCommandInteraction, client: Client) {
 		const { channelId } = interaction;
 
 		try {
-			const subscription = await BossSubscriptionsModule.getOneChannel(channelId);
+			const subscription = await bossSubscriptionsModule.getOneChannel(channelId);
 			if (subscription) {
 				bossScheduleModule.scheduleForOneChannel(client, subscription);
 				return interaction.reply('Вы уже подписаны. Сначала отпишитесь от старых анонсов.');
@@ -41,7 +42,7 @@ export const command = {
 			if (Math.max(...offsets) > MAX_POSSIBLE_OFFSET || Math.min(...offsets) < MIN_POSSIBLE_OFFSET)
 				return interaction.reply(`Допустимые значения: от ${MIN_POSSIBLE_OFFSET} до ${MAX_POSSIBLE_OFFSET}`);
 
-			const newSubscription = await BossSubscriptionsModule.saveSubscription(channelId, offsets);
+			const newSubscription = await bossSubscriptionsModule.saveSubscription(channelId, offsets);
 			bossScheduleModule.scheduleForOneChannel(client, newSubscription);
 
 			return interaction.reply(

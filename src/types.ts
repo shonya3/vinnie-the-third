@@ -1,12 +1,11 @@
 import type { Announcement } from './lib/Announcement.js';
 import type { SlashCommandBuilder } from '@discordjs/builders';
-import type { Client, ClientPresence, CommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction, Client, ClientPresence } from 'discord.js';
 import type { Collection } from '@discordjs/collection';
 import type { RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 
 declare module 'discord.js' {
 	interface Client {
-		commands: Collection<string, Command>;
 		announcements: Collection<string, ScheduledAnnouncement[]>;
 	}
 }
@@ -31,7 +30,7 @@ export interface IProcessEnv {
 
 export interface Command {
 	data: SlashCommandBuilder;
-	execute: (interaction: CommandInteraction, ...args: any[]) => any;
+	execute: (interaction: ChatInputCommandInteraction, ...args: any[]) => any;
 }
 
 declare module 'node-schedule' {

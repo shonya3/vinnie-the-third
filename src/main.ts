@@ -1,4 +1,4 @@
-import bot from './bot/index.js';
+import { client as bot } from './bot/index.js';
 import { configENV } from './configENV.js';
 
 configENV();
