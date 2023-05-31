@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import type { ChatInputCommandInteraction, Client, CommandInteraction } from 'discord.js';
 import { MAX_POSSIBLE_OFFSET, MIN_POSSIBLE_OFFSET } from '../../const.js';
 import { unique } from '../../lib/general.js';
-import bossScheduleModule from '../../modules/bossSchedule/mod.js';
 import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
+import { bossScheduleModule } from '../../modules/bossSchedule/mod.js';
 
 const builder = new SlashCommandBuilder()
 	.setName('subscribe')

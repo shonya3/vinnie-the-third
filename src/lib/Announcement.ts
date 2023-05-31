@@ -13,7 +13,6 @@ import type {
 	OffsetsWithTimeUnit,
 	AnyFunction,
 	AnnouncementCallbacks,
-	ScheduledAnnouncement,
 } from '../types.js';
 
 export class Announcement {
@@ -33,7 +32,6 @@ export class Announcement {
 	offsetsUnit: TimeUnit = 'minutes';
 	#offsets?: number[];
 	#callback?: Function;
-	context: Map<any, any> = new Map();
 
 	constructor(public rule: Rule, offsets?: Offset[] | OffsetsWithTimeUnit) {
 		if (offsets) {
@@ -45,7 +43,7 @@ export class Announcement {
 		}
 	}
 
-	schedule(callbacks?: AnnouncementCallbacks, name?: string): asserts this is ScheduledAnnouncement {
+	schedule(callbacks?: AnnouncementCallbacks, name?: string) {
 		this.#callback = this.#composeCallback({
 			repeating: callbacks?.repeating,
 			onRelease: callbacks?.onRelease,
@@ -58,28 +56,8 @@ export class Announcement {
 		this.#validateOffsets();
 	}
 
-	#formatContext() {
-		const entries = Array.from(this.context)
-			.map(([key, value]) => `${key} => ${value}`)
-			.join(', ');
-		return `  Context: ${entries}`;
-	}
-
 	#createDefaultName(job: Job) {
-		const name = job.name.replace('Job', 'Announcement');
-		return name + this.#formatContext();
-	}
-
-	addContext(k: any, v: any) {
-		this.context.set(k, v);
-	}
-
-	hasContext(k: any) {
-		return this.context.has(k);
-	}
-
-	getContext(k: any) {
-		return this.context.get(k);
+		return job.name.replace('Job', 'Announcement');
 	}
 
 	set offsets(val: number[] | undefined) {
