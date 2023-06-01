@@ -27,13 +27,13 @@ const crons: CronExpression[] = [
 ];
 
 export const scheduleNotifications = (channel: TextChannel, crons: CronExpression[]) => {
-	crons.forEach(cron => {
+	for (const cron of crons) {
 		const closestDate = new Date(cronToClosestDate(cron).getTime() - 3600 * 1000);
 		const rule = dateToRule(closestDate, 'Europe/Kyiv');
 		scheduleJob(rule, () => {
 			sendSelfDeletingMessage(channel, `До возможного отключения света 1 час`, 300);
 		});
-	});
+	}
 };
 
 export const schedule = (channel: TextChannel) => {

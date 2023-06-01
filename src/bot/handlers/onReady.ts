@@ -2,13 +2,12 @@ import { Client } from 'discord.js';
 import { CHANNEL_ID } from '../../const.js';
 import { getChannel } from '../../lib/discord.js';
 import { timeString } from '../../lib/dates.js';
-import { BossSubscriptionForChannel } from '../../types.js';
 import { GuildMemberId, watchStatus } from '../../lib/watchStatus.js';
 
-import presenceModule from '../../modules/presence/mod.js';
 import { Status } from '../../lib/watchStatus.js';
 import { bossSubscriptionsModule } from '../../modules/bossSubscriptions/bossSubscriptions.js';
 import { bossScheduleModule } from '../../modules/bossSchedule/mod.js';
+import { presenceModule } from '../../modules/presence/mod.js';
 
 export const onReady = async (client: Client) => {
 	const vinnieMainChannel = getChannel(client, CHANNEL_ID);

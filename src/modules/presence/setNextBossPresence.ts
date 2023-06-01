@@ -1,9 +1,10 @@
 import { timeString } from '../../lib/dates.js';
 import { Client } from 'discord.js';
 import { setPresence } from '../../lib/discord.js';
-import { generateBossMap } from '../bossSchedule/generateBossMap.js';
+import { bossScheduleModule } from '../bossSchedule/mod.js';
 
-const generateBossQueue = () => Array.from(generateBossMap().values()).map(bossArray => bossArray.join(', '));
+const generateBossQueue = () =>
+	Array.from(bossScheduleModule.generateBossMap().values()).map(bossArray => bossArray.join(', '));
 
 let bossNames = generateBossQueue();
 

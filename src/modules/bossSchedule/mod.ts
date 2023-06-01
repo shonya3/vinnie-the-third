@@ -1,8 +1,8 @@
 import { Client } from 'discord.js';
 import { putAnnouncementIntoCollection } from './putAnnouncementIntoCollection.js';
 import type { BossSubscriptionForChannel } from '../../types.js';
-import { setNextBossPresence } from '../presence/setNextBossPresence.js';
 import { scheduleBossAnnoucements } from './scheduleBossAnnouncements.js';
+import { generateBossMap } from './generateBossMap.js';
 
 const scheduleForOneChannel = (client: Client, { channelId, offsets }: BossSubscriptionForChannel) => {
 	for (const announcement of scheduleBossAnnoucements(offsets, channelId, client)) {
@@ -28,5 +28,5 @@ export const bossScheduleModule = {
 	scheduleForOneChannel,
 	cancelForOneChannel,
 	scheduleForChannels,
-	setNextBossPresence,
+	generateBossMap,
 };

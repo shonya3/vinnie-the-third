@@ -1,5 +1,7 @@
 import { schedulePresenceUpdate } from './schedulePresenceUpdate.js';
+import { setNextBossPresence } from './setNextBossPresence.js';
 
-export default {
-  schedulePresenceUpdate,
+export const presenceModule = {
+	schedulePresenceUpdate,
+	setNextBossPresence,
 };
