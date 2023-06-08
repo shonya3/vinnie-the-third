@@ -85,10 +85,6 @@ export type TimeUnit = 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days'
 export type AnyFunction = (...args: any[]) => any;
 export type Wrapper<T extends AnyFunction> = (f: T) => (...args: Parameters<T>) => ReturnType<T>;
 export type PresenceSetter = (client: Client) => ClientPresence;
-export interface ScheduleCallbacks {
-	repeating?: RepeatingCallback;
-	onRelease?: ReleaseCallback;
-}
 export type RepeatingCallback = (offset: number, timeout: number, unit: TimeUnit) => Promise<any>;
 export type ReleaseCallback = AnyFunction;
 export interface OffsetsWithTimeUnit {
@@ -96,8 +92,4 @@ export interface OffsetsWithTimeUnit {
 	unit: TimeUnit;
 }
 export type Offset = number;
-export interface AnnouncementCallbacks {
-	repeating?: RepeatingCallback;
-	onRelease?: ReleaseCallback;
-}
 export type ScheduledAnnouncement = Announcement & { cancel: () => void };

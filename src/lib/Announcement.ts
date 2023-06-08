@@ -12,8 +12,12 @@ import type {
 	Offset,
 	OffsetsWithTimeUnit,
 	AnyFunction,
-	AnnouncementCallbacks,
 } from '../types.js';
+
+export interface AnnouncementCallbacks {
+	repeating?: RepeatingCallback;
+	onRelease?: ReleaseCallback;
+}
 
 export class Announcement {
 	static minPossibleOffset = MIN_POSSIBLE_OFFSET;
