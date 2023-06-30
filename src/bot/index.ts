@@ -1,11 +1,18 @@
 import { ChatInputCommandInteraction, Client, GatewayIntentBits } from 'discord.js';
 import { Collection } from '@discordjs/collection';
 
+declare module 'discord.js' {
+	interface Client {
+		announcements: Collection<string, ScheduledAnnouncement[]>;
+	}
+}
+
 import { CHANNEL_ID } from '../const.js';
 import { getChannel } from '../lib/discord.js';
 import { onMessage } from './handlers/onMessage.js';
 import { onReady } from './handlers/onReady.js';
 import { onInteraction } from './handlers/onInteraction.js';
+import { ScheduledAnnouncement } from '../types.js';
 
 const VINNIE_MAIN_CHANNEL = CHANNEL_ID;
 const VINNIE_ARCHER_CHANNEL = '356013349496029184';

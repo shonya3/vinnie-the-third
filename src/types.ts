@@ -4,30 +4,6 @@ import type { ChatInputCommandInteraction, Client, ClientPresence } from 'discor
 import type { Collection } from '@discordjs/collection';
 import type { RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 
-declare module 'discord.js' {
-	interface Client {
-		announcements: Collection<string, ScheduledAnnouncement[]>;
-	}
-}
-
-declare global {
-	namespace NodeJS {
-		interface ProcessEnv extends IProcessEnv {}
-	}
-}
-
-export interface IProcessEnv {
-	TOKEN: string;
-	NODE_ENV: 'production' | 'development';
-	APPID: string;
-	GUILDS: string;
-	POSTGRES_PORT: string;
-	POSTGRES_HOST: string;
-	POSTGRES_USER: string;
-	POSTGRES_PASSWORD: string;
-	POSTGRES_DB: string;
-}
-
 export interface Command {
 	data: SlashCommandBuilder;
 	execute: (interaction: ChatInputCommandInteraction, ...args: any[]) => any;
