@@ -25,26 +25,15 @@ export interface Time {
 type CronSign = '*' | `${number}`;
 export type CronExpression = `${CronSign} ${CronSign} ${CronSign} ${CronSign} ${CronSign}`;
 // export type CronExpression = string;
-export type BossName =
-	| 'Продажный правитель Кзарка'
-	| 'Древний Кутум'
-	| 'Офин-разрушитель'
-	| 'Квинт'
-	| 'Велл'
-	| 'Мурака'
-	| 'Нубэр'
-	| 'Каранда'
-	| 'Камос';
 
-export type BossShortName = 'Кзарка' | 'Кутум' | 'Офин' | 'Квинт' | 'Велл' | 'Мурака' | 'Нубэр' | 'Каранда' | 'Камос';
 export interface BossWithCron {
-	name: BossName;
-	shortName: BossShortName;
+	name: string;
+	shortName: string;
 	cronExpressions: CronExpression[];
 }
 export interface BossWithDate {
-	name: BossName;
-	shortName: BossShortName;
+	name: string;
+	shortName: string;
 	respawnDate: Date;
 	cronExpression?: CronExpression;
 	timestamp?: EpochTimeStamp;

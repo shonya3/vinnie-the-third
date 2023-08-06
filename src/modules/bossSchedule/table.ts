@@ -1,4 +1,4 @@
-import { BossWithCron } from '../../types.js';
+import { BossWithCron, CronExpression } from '../../types.js';
 
 export const table: BossWithCron[] = [
 	{
@@ -81,27 +81,26 @@ export const table: BossWithCron[] = [
 		shortName: 'Квинт',
 		cronExpressions: ['0 23 * * 2', '0 14 * * 6'],
 	},
-	{
-		name: 'Камос',
-		shortName: 'Камос',
-		// cronExpressions: ['0 0 * * 0', '0 12 * * 0', '0 23 * * 4'],
-		cronExpressions: [
-			'0 13 * * 0',
-			'0 13 * * 1',
-			'0 13 * * 2',
-			'0 13 * * 3',
-			'0 13 * * 4',
-			'0 13 * * 5',
-			'0 13 * * 6',
-			'15 22 * * 0',
-			'15 22 * * 1',
-			'15 22 * * 2',
-			'15 22 * * 3',
-			'15 22 * * 4',
-			'15 22 * * 5',
-			'0 0 * * 0',
-		],
-	},
+	// {
+	// 	name: 'Камос',
+	// 	shortName: 'Камос',
+	// 	cronExpressions: [
+	// 		'0 13 * * 0',
+	// 		'0 13 * * 1',
+	// 		'0 13 * * 2',
+	// 		'0 13 * * 3',
+	// 		'0 13 * * 4',
+	// 		'0 13 * * 5',
+	// 		'0 13 * * 6',
+	// 		'15 22 * * 0',
+	// 		'15 22 * * 1',
+	// 		'15 22 * * 2',
+	// 		'15 22 * * 3',
+	// 		'15 22 * * 4',
+	// 		'15 22 * * 5',
+	// 		'0 0 * * 0',
+	// 	],
+	// },
 	{
 		name: 'Велл',
 		shortName: 'Велл',
@@ -111,5 +110,19 @@ export const table: BossWithCron[] = [
 		name: 'Офин-разрушитель',
 		shortName: 'Офин',
 		cronExpressions: ['0 23 * * 0', '0 18 * * 3', '0 23 * * 5'],
+	},
+	{
+		name: 'Детеныш Велл',
+		shortName: 'Детеныш Велл',
+		cronExpressions: Array.from({ length: 7 }, (_, day: number) => {
+			const dailySpawns = ['0:30', '12:30', '15:30', '17:30', '23:30'];
+			const crons: CronExpression[] = [];
+			for (const time of dailySpawns) {
+				const [hour, min] = time.split(':').map(s => Number(s));
+				crons.push(`${min} ${hour} * * ${day}`);
+			}
+
+			return crons;
+		}).flat(),
 	},
 ];
