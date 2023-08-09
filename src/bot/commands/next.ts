@@ -11,6 +11,18 @@ const createNextBossesString = (num = 1, map: Map<number | string, string[]>) =>
 		})
 		.join('\n');
 
+const bossesStringNewVersion = (num = 1, map: Map<number | string, string[]>) =>
+	Array.from(map.entries())
+		.slice(0, num)
+		.map(([timestamp, bosses]) => {
+			const date = new Date(timestamp);
+			const spawnTimeString = date.toLocaleTimeString('ru', { timeStyle: 'short' });
+			const timeLeftMessage = timeLeft(date);
+			const bossesNamesString = bold(bosses.join(', '));
+			return `${spawnTimeString} - ${bossesNamesString}. ${timeLeftMessage}`;
+		})
+		.join('\n');
+
 const builder = new SlashCommandBuilder()
 	.setName('next')
 	.setDescription('Подсказывает имя ближайшего босса или ближайших боссов');
@@ -25,7 +37,7 @@ export const next = {
 
 		if (bossCount < 1) return interaction.reply('Введите положительное число');
 
-		const replyString = createNextBossesString(bossCount, generateBossMap({ nameStyle: 'full' }));
+		const replyString = bossesStringNewVersion(bossCount, generateBossMap({ nameStyle: 'full' }));
 
 		return interaction.reply(replyString);
 	},
