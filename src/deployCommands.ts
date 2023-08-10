@@ -24,6 +24,7 @@ const deployCommands = async (token: string, clientId: string, guilds: string[],
 			Object.values(commands).map(command => command.data.toJSON())
 		);
 		const rest = new REST({ version: '10' }).setToken(token);
+		console.log(commandsJSON);
 		isProduction
 			? await prodDeployCommands(clientId, rest, commandsJSON)
 			: await devDeployCommands(clientId, rest, commandsJSON, guilds);

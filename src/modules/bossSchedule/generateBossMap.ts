@@ -18,3 +18,24 @@ export const generateBossMap = (
 
 	return new Map(Array.from(map).sort((a, b) => a[0] - b[0]));
 };
+
+const isNightHour = (hour: number) => hour === 0 || hour === 1 || hour === 2;
+export const generateTodayBossMap = ({ nameStyle }: { nameStyle: 'full' | 'short' }) => {
+	let prevSpawnHour: null | number = null;
+	const outputMap = new Map();
+
+	for (const [timestamp, bosses] of generateBossMap({ nameStyle })) {
+		const hour = new Date(timestamp).getHours();
+
+		if (prevSpawnHour !== null && isNightHour(prevSpawnHour)) {
+			if (hour - prevSpawnHour > 6) {
+				console.log(bosses);
+				break;
+			}
+		}
+		prevSpawnHour = hour;
+		outputMap.set(timestamp, Array.from(bosses));
+	}
+
+	return outputMap;
+};

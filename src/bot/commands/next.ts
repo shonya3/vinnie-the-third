@@ -1,27 +1,6 @@
 import { SlashCommandBuilder, bold, ChatInputCommandInteraction } from 'discord.js';
-import { timeLeft } from '../../lib/dates.js';
 import { generateBossMap } from '../../modules/bossSchedule/generateBossMap.js';
-
-const createNextBossesString = (num = 1, map: Map<number | string, string[]>) =>
-	Array.from(map.entries())
-		.slice(0, num)
-		.map(([timestamp, bosses]) => {
-			const left = timeLeft(new Date(timestamp));
-			return `${bold(bosses.join(', '))}. ${left}`;
-		})
-		.join('\n');
-
-const bossesStringNewVersion = (num = 1, map: Map<number | string, string[]>) =>
-	Array.from(map.entries())
-		.slice(0, num)
-		.map(([timestamp, bosses]) => {
-			const date = new Date(timestamp);
-			const spawnTimeString = date.toLocaleTimeString('ru', { timeStyle: 'short' });
-			const timeLeftMessage = timeLeft(date);
-			const bossesNamesString = bold(bosses.join(', '));
-			return `${spawnTimeString} - ${bossesNamesString}. ${timeLeftMessage}`;
-		})
-		.join('\n');
+import { bossesString } from './mod.js';
 
 const builder = new SlashCommandBuilder()
 	.setName('next')
@@ -37,7 +16,7 @@ export const next = {
 
 		if (bossCount < 1) return interaction.reply('Введите положительное число');
 
-		const replyString = bossesStringNewVersion(bossCount, generateBossMap({ nameStyle: 'full' }));
+		const replyString = bossesString(generateBossMap({ nameStyle: 'full' }), bossCount);
 
 		return interaction.reply(replyString);
 	},
