@@ -111,18 +111,4 @@ export const table: BossWithCron[] = [
 		shortName: 'Офин',
 		cronExpressions: ['0 23 * * 0', '0 18 * * 3', '0 23 * * 5'],
 	},
-	{
-		name: 'Детеныш Велл',
-		shortName: 'Детеныш Велл',
-		cronExpressions: Array.from({ length: 7 }, (_, day: number) => {
-			const dailySpawns = ['0:30', '12:30', '15:30', '17:30', '23:30'];
-			const crons: CronExpression[] = [];
-			for (const time of dailySpawns) {
-				const [hour, min] = time.split(':').map(s => Number(s));
-				crons.push(`${min} ${hour} * * ${day}`);
-			}
-
-			return crons;
-		}).flat(),
-	},
 ];

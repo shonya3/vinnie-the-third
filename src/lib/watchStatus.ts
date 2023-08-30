@@ -17,7 +17,7 @@ const online = (member: GuildMember): boolean => {
 	return Boolean(member.presence && (member.presence.status === 'idle' || member.presence.status === 'online'));
 };
 
-const fetchUser = async (client: Client, guildId: string, memberId: string): Promise<GuildMember> => {
+export const fetchUser = async (client: Client, guildId: string, memberId: string): Promise<GuildMember> => {
 	return client.guilds.cache
 		.get(guildId)!
 		.members.fetch()
