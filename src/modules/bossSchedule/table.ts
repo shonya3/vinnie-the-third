@@ -106,9 +106,9 @@ export const table: BossWithCron[] = [
 		shortName: 'Велл',
 		cronExpressions: ['0 16 * * 0', '0 23 * * 3'],
 	},
-	// {
-	// 	name: 'Офин-разрушитель',
-	// 	shortName: 'Офин',
-	// 	cronExpressions: ['0 23 * * 0', '0 18 * * 3', '0 23 * * 5'],
-	// },
+	{
+		name: 'Офин-разрушитель',
+		shortName: 'Офин',
+		cronExpressions: ['0 23 * * 0', '0 18 * * 3', '0 23 * * 5'],
+	},
 ];
